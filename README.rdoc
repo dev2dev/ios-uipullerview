@@ -1,0 +1,60 @@
+= iOS-UIPullerView for iOS v1.0
+
+A pull-down-to-refresh control inspired by {Devin Doty}[https://github.com/enormego/EGOTableViewPullRefresh].
+
+You can put this component anywhere you like. Usually you will use it as a 
+header or footer of a scroll view to show pull-to-load hint and loading 
+activity.
+
+You can fully customize its behavior and style. You can set a pull direction 
+to tell the component how to behave when dragging the scroll view. You can
+also fully customize the appearance (using code or interface builder).
+
+== Instalation
+
+Add files to your xCode project.
+
+== Usage Example
+
+Assume you have a scroll view working and setup. Define a class variables that 
+will hold the scroll view header object. Attach also scroll view protocol.
+
+  #import "UIPullerView.h"
+  @interface MyController : UIViewController <UIScrollViewDelegate>
+  {
+    ...
+    UIPullerView *headerPullerView;
+  }
+
+Install puller handlers that will handle scroll view dragging inside scroll 
+view callback methods.
+
+  - (void)scrollViewDidScroll:(UIScrollView *)scroll
+  {	
+    ...
+    [headerPullerView scrollViewDidScroll:scroll];
+  }
+
+  - (void)scrollViewDidEndDragging:(UIScrollView *)scroll willDecelerate:(BOOL)decelerate
+  {
+    ...
+    if ([headerPullerView scrollViewDidEndDragging:scroll]) 
+    {
+      [listDownloader downloadPreviousPage];
+    }
+  }
+
+Assume you have implemented a system for loading scroll view items add puller
+handlers into method that is triggered when the loading is finished.
+
+  - (void)loadingDidFinish // sample function name
+  {
+    [headerPullerView loadingDidFinish];
+  }
+
+== Customizing the default layout
+
+By default the control consists of a label (filling the whole object) and 
+activity indicator view (centered). 
+
+
